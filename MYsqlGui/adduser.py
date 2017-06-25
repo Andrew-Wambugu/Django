@@ -2,7 +2,6 @@
 
 from tkinter import *
 from tkinter import messagebox
-import mysql
 import mysql.connector
 import hashlib
 
@@ -60,7 +59,7 @@ def addUser():
             status = True
         elif sget == "":
             print("Blank Name Field")
-            messagebox.showinfo("ERROR","STAFF ID CANNOT BE BLANK")
+            messagebox.showinfo("ERROR", "STAFF ID CANNOT BE BLANK")
             status = False
 
     except:
@@ -70,15 +69,14 @@ def addUser():
         if status == True:
             cursor.execute("SELECT staffid FROM users where staffid ='%s'" % (StaffIDEntry.get()))
             staffid = cursor.fetchone()
-            staffidone = str(staffid[0])
-# got tired and decided to sleep..... close this try catch
-# figure out how to mak this part of the code work. its not working as expected and im too tired to think
             if staffid is None:
                 print("empty id")
                 status = True
+            elif staffid is not None:
+                messagebox.showinfo("ERROR", "STAFF ID ALREADY EXIT")
+                status = False
     except:
-        print(staffidone)
-        messagebox.showinfo("ERROR","STAFF ID ALREADY EXIT")
+        messagebox.showinfo("ERROR","STAFF ID ALREADY EXISTS")
         status = False
 
     try:
@@ -157,7 +155,7 @@ def addUser():
     except:
         if status == False:
             messagebox.showinfo("ERROR", "USER NOT ADDED")
-    reset()
+    #reset()
 
 ###############################################
 ####              INTERFACE               #####
